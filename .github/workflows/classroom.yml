@@ -1,0 +1,223 @@
+name: Classroom Autograding
+
+'on':
+  push:
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  checks: write
+  contents: read
+
+jobs:
+  autograding:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install pytest
+        run: python -m pip install pytest
+
+      - name: Bronze - welcome message
+        id: bronze-welcome
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Bronze - welcome message
+          command: python classroom_grade.py test_welcome_message
+          timeout: 2
+          max-score: 10
+
+      - name: Bronze - name and prompts
+        id: bronze-name
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Bronze - name and prompts
+          command: python classroom_grade.py test_name_is_used_in_message
+          timeout: 2
+          max-score: 15
+
+      - name: Bronze - house loop
+        id: bronze-house-loop
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Bronze - house loop
+          command: python classroom_grade.py test_house_loop_uses_keep_going_then_happy_halloween
+          timeout: 2
+          max-score: 30
+
+      - name: Bronze - one house
+        id: bronze-one-house
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Bronze - one house
+          command: python classroom_grade.py test_one_house_only_prints_final_message
+          timeout: 2
+          max-score: 15
+
+      - name: Silver - candy bag prompt
+        id: silver-prompt
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Silver - candy bag prompt
+          command: python classroom_grade.py test_candy_bag_prompt_is_printed
+          timeout: 2
+          max-score: 1
+
+      - name: Silver - done sentinel behavior
+        id: silver-sentinel-behavior
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Silver - done sentinel behavior
+          command: python classroom_grade.py test_sentinel_stops_candy_collection
+          timeout: 2
+          max-score: 1
+
+      - name: Silver - chocolate count and message
+        id: silver-chocolate
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Silver - chocolate count and message
+          command: python classroom_grade.py test_chocolate_is_counted_and_gets_special_message
+          timeout: 2
+          max-score: 2
+
+      - name: Silver - other candy count and message
+        id: silver-other-candy
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Silver - other candy count and message
+          command: python classroom_grade.py test_other_candy_is_counted_and_gets_tier_message
+          timeout: 2
+          max-score: 2
+
+      - name: Silver - summary counts
+        id: silver-summary
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Silver - summary counts
+          command: python classroom_grade.py test_silver_summary_counts_multiple_candies
+          timeout: 2
+          max-score: 2
+
+      - name: Silver - case-sensitive candy
+        id: silver-case-sensitive
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Silver - case-sensitive candy
+          command: python classroom_grade.py test_silver_candy_names_are_case_sensitive
+          timeout: 2
+          max-score: 1
+
+      - name: Silver - sentinel in while condition
+        id: silver-sentinel-syntax
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Silver - sentinel in while condition
+          command: python classroom_grade.py test_while_loop_uses_done_sentinel
+          timeout: 2
+          max-score: 2
+
+      - name: Silver - no break
+        id: silver-no-break
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Silver - no break
+          command: python classroom_grade.py test_no_break_statements
+          timeout: 2
+          max-score: 1
+
+      - name: Silver - no continue
+        id: silver-no-continue
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Silver - no continue
+          command: python classroom_grade.py test_no_continue_statements
+          timeout: 2
+          max-score: 1
+
+      - name: Silver - no while True
+        id: silver-no-while-true
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Silver - no while True
+          command: python classroom_grade.py test_no_while_true_syntax
+          timeout: 2
+          max-score: 2
+
+      - name: Gold - input validation
+        id: gold-validation
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Gold - input validation
+          command: python classroom_grade.py test_gold_rejects_invalid_candy_and_accepts_next_valid
+          timeout: 2
+          max-score: 2
+
+      - name: Gold - capitalized candy and sentinel
+        id: gold-capitalized
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Gold - capitalized candy and sentinel
+          command: python classroom_grade.py test_gold_accepts_capitalized_candy_and_sentinel
+          timeout: 2
+          max-score: 2
+
+      - name: Gold - candy point values
+        id: gold-points
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Gold - candy point values
+          command: python classroom_grade.py test_gold_candy_points
+          timeout: 2
+          max-score: 3
+
+      - name: Gold - candy summary
+        id: gold-summary
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Gold - candy summary
+          command: python classroom_grade.py test_gold_summary_counts_all_candy_types
+          timeout: 2
+          max-score: 3
+
+      - name: Gold - prize tiers
+        id: gold-prizes
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Gold - prize tiers
+          command: python classroom_grade.py test_gold_prize_tier
+          timeout: 2
+          max-score: 5
+
+      - name: Report autograding results
+        if: always()
+        uses: classroom-resources/autograding-grading-reporter@v1
+        env:
+          BRONZE-WELCOME_RESULTS: ${{ steps.bronze-welcome.outputs.result }}
+          BRONZE-NAME_RESULTS: ${{ steps.bronze-name.outputs.result }}
+          BRONZE-HOUSE-LOOP_RESULTS: ${{ steps.bronze-house-loop.outputs.result }}
+          BRONZE-ONE-HOUSE_RESULTS: ${{ steps.bronze-one-house.outputs.result }}
+          SILVER-PROMPT_RESULTS: ${{ steps.silver-prompt.outputs.result }}
+          SILVER-SENTINEL-BEHAVIOR_RESULTS: ${{ steps.silver-sentinel-behavior.outputs.result }}
+          SILVER-CHOCOLATE_RESULTS: ${{ steps.silver-chocolate.outputs.result }}
+          SILVER-OTHER-CANDY_RESULTS: ${{ steps.silver-other-candy.outputs.result }}
+          SILVER-SUMMARY_RESULTS: ${{ steps.silver-summary.outputs.result }}
+          SILVER-CASE-SENSITIVE_RESULTS: ${{ steps.silver-case-sensitive.outputs.result }}
+          SILVER-SENTINEL-SYNTAX_RESULTS: ${{ steps.silver-sentinel-syntax.outputs.result }}
+          SILVER-NO-BREAK_RESULTS: ${{ steps.silver-no-break.outputs.result }}
+          SILVER-NO-CONTINUE_RESULTS: ${{ steps.silver-no-continue.outputs.result }}
+          SILVER-NO-WHILE-TRUE_RESULTS: ${{ steps.silver-no-while-true.outputs.result }}
+          GOLD-VALIDATION_RESULTS: ${{ steps.gold-validation.outputs.result }}
+          GOLD-CAPITALIZED_RESULTS: ${{ steps.gold-capitalized.outputs.result }}
+          GOLD-POINTS_RESULTS: ${{ steps.gold-points.outputs.result }}
+          GOLD-SUMMARY_RESULTS: ${{ steps.gold-summary.outputs.result }}
+          GOLD-PRIZES_RESULTS: ${{ steps.gold-prizes.outputs.result }}
+        with:
+          runners: bronze-welcome,bronze-name,bronze-house-loop,bronze-one-house,silver-prompt,silver-sentinel-behavior,silver-chocolate,silver-other-candy,silver-summary,silver-case-sensitive,silver-sentinel-syntax,silver-no-break,silver-no-continue,silver-no-while-true,gold-validation,gold-capitalized,gold-points,gold-summary,gold-prizes

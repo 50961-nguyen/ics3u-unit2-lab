@@ -14,7 +14,7 @@ You do not need to write IPO for each tier - just include it once in your code a
 
 ## Submission Instructions
 
-Submit your Python file as `unit1_lab_tier.py` (for example, `unit1_lab_gold.py`) via GitHub.
+Submit your Python file as `unit2_lab_tier.py` (for example, `unit2_lab_gold.py`) via GitHub.
 
 ## Bronze Tier — Max Grade of 70%
 
